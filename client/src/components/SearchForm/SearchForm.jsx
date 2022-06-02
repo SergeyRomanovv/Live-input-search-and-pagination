@@ -7,18 +7,27 @@ export default function SearchForm() {
   const [inputValue, setInputValue] = useState('');
   const [peoplesList, setPeoplesList] = useState(null);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = (e) => {
+    if (e) {
+      console.log(e);
+      setInputValue(e)
+    }
+    setShow(false)
+  };
   const handleShow = () => setShow(true);
 
   // const getPeopleHandler = async () => {
   //   let people = await axios.get('http://localhost:3001/people');
   //   peoplesList(people.data);
+  function inputChangeHandler (e) {
+    setInputValue(e.target.value)
+  }
   // }
   useEffect(() => {
     axios.get('http://localhost:3001/people').then((peoples) => setPeoplesList(peoples.data));
   }, [])
   
-  console.log('render');
+  console.log(peoplesList);
   return (
     <>
       <div className="header">
@@ -33,7 +42,7 @@ export default function SearchForm() {
             placeholder="ФИО" 
             list="fio" 
             name="fio"
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => inputChangeHandler(e)}
             value={inputValue}
             />
             <datalist id="fio">
@@ -55,7 +64,7 @@ export default function SearchForm() {
           </Form.Group>
         </Form>
       </div>
-      <ModalWindow persons = {peoplesList} show = {show} handleClose = {handleClose} handleShow = {handleShow} />
+      <ModalWindow collbackData = {inputChangeHandler} persons = {peoplesList} show = {show} handleClose = {handleClose} handleShow = {handleShow} />
     </>
   );
 }
