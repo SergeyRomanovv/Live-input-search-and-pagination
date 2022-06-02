@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Table } from "react-bootstrap";
 
-export default function ModalWindow({ show, handleClose, handleShow, persons }) {
+export default function ModalWindow({ show, handleClose, handleShow, persons, collbackData }) {
   let firstTenPerson = persons?.filter((person, index) => {
     return index < 20;
   })
-  const [inputValue, setInputValue] = useState(null);
-
+  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
     return () => {
-      console.log('out');
       setInputValue(null)
     }
   }, [show])
-  function clickHandler(e) {
-    console.log(e.target.parentNode);
+  function clickHandler(curElement) {
+    const selectedPerson = `${curElement.name} ${curElement.surname} ${curElement.secondName}`
+    setInputValue(selectedPerson)
   }
 
   return (
@@ -32,6 +31,7 @@ export default function ModalWindow({ show, handleClose, handleShow, persons }) 
                 placeholder="ФИО"
                 name="fio"
                 onChange={(event) => setInputValue(event.target.value)}
+                value={inputValue || ''}
               />
               <div id="fio">
                 <Table striped bordered hover>
@@ -45,7 +45,7 @@ export default function ModalWindow({ show, handleClose, handleShow, persons }) 
                   <tbody>
                   {!inputValue ?
                   firstTenPerson?.map((element) => {
-                    return (<tr key={element.id} onClick={(e) => clickHandler(e)}>
+                    return (<tr key={element.id} onClick={() => clickHandler(element)}>
                       <td>{element.name}</td>
                       <td>{element.surname}</td>
                       <td>{element.secondName}</td>
@@ -58,7 +58,7 @@ export default function ModalWindow({ show, handleClose, handleShow, persons }) 
                   }).slice(0, 5)
                     .map((element) => {
                       return (
-                      <tr key={element.id} onClick={(e) => clickHandler(e)}>
+                      <tr key={element.id} onClick={() => clickHandler(element)}>
                       <td>{element.name}</td>
                       <td>{element.surname}</td>
                       <td>{element.secondName}</td>
@@ -68,28 +68,15 @@ export default function ModalWindow({ show, handleClose, handleShow, persons }) 
                 }
                   </tbody>
                 </Table>
-                {/* {!inputValue ?
-                  firstTenPerson?.map((element) => {
-                    return (<p key={element.id}>{`${element.name} ${element.surname} ${element.secondName}`}</p>
-                    );
-                  })
-                  :
-                  persons?.filter((person) => {
-                    return `${person.name} ${person.surname} ${person.secondName}`.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())
-                  }).slice(0, 5)
-                    .map((element) => {
-                      return <p key={element.id}>{`${element.name} ${element.surname} ${element.secondName}`}</p>
-                    })
-                } */}
               </div>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={()=> handleClose()}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={()=> handleClose(inputValue)}>
             Save Changes
           </Button>
         </Modal.Footer>
