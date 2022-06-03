@@ -52,7 +52,7 @@ export default function SearchForm() {
                   })}
               </datalist>
               <Button variant="outline-success" onClick={handleShow}>
-                <img src="./test.svg" alt="" />
+                <img src="./magnifying-glass.svg" alt="" />
               </Button>
             </InputGroup>
           </Form.Group>

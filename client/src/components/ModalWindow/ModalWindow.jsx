@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Table, Pagination, Dropdown, DropdownButton } from "react-bootstrap";
 
 export default function ModalWindow({ show, handleClose, handleShow, persons }) {
-  console.log(persons);
   const [inputValue, setInputValue] = useState('');
   const [start, setStart] = useState(0)
   const [end, setEnd] = useState(10)
   const [dropdown, setDropdown] = useState(10);
-  console.log('startDropdownCounter', start);
-  console.log('endDropdownCounter', end);
 
   useEffect(() => {
     return () => {
@@ -39,11 +36,9 @@ export default function ModalWindow({ show, handleClose, handleShow, persons }) 
   function dropdownChangeHandler(number) {
     setDropdown(number);
     setEnd(number);
-    console.log(number);
   }
 
   function paginationChangeHandler(number) {
-    console.log(number);
     setStart((number - 1) * dropdown);
     setEnd(number * dropdown);
   }
