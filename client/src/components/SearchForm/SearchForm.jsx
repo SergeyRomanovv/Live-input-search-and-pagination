@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import ModalWindow from "../ModalWindow/ModalWindow";
 
 export default function SearchForm() {
